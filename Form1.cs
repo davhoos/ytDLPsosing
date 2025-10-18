@@ -24,19 +24,19 @@ namespace ytDLPsosing
             }
 
 
-            // Optional: Set label if not already set in the designer
+            
             checkMusicOrVideo.Text = "Video or Music";
 
         }
         #endregion
 
 
-        // Create a new folder for downloads
+        
         string myVideosPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "ytdlp_videos") + Path.DirectorySeparatorChar;
 
 
 
-        // Check if Music or Video should be downloaded
+      
         string formatOption;
 
 
@@ -52,12 +52,13 @@ namespace ytDLPsosing
                     Directory.CreateDirectory(myVideosPath);
                 }
 
-                // Build correct format options
                 formatOption = "-f \"bestvideo[ext=mp4][height<=1440]+bestaudio[ext=m4a]/best[ext=mp4]\"";
                 string outputTemplate = Path.Combine(myVideosPath, "%(title)s.%(ext)s");
 
-                // Full yt-dlp arguments
-                string arguments = $"{formatOption} --merge-output-format mp4 --remux-video mp4 --no-keep-video -o \"{outputTemplate}\" \"{txbURL.Text}\"";
+         
+                string playlistOption = chckBox1Playlist.Checked ? "" : "--no-playlist";
+
+                string arguments = $"{playlistOption} {formatOption} --merge-output-format mp4 --remux-video mp4 --no-keep-video -o \"{outputTemplate}\" \"{txbURL.Text}\"";
 
                 cmd = new Process
                 {
@@ -82,7 +83,7 @@ namespace ytDLPsosing
                 cmd.BeginOutputReadLine();
                 cmd.BeginErrorReadLine();
 
-                AppendOutput($" Video Download started... Files saved in folder: {myVideosPath}\n");
+                AppendOutput($"Video Download started... (Playlist: {(chckBox1Playlist.Checked ? "Enabled" : "Disabled")}) Files saved in: {myVideosPath}\n");
             }
             catch (Exception ex)
             {
@@ -91,24 +92,27 @@ namespace ytDLPsosing
         }
 
 
+
         //
 
         private void StartDownloadMusic()
         {
-
             try
             {
-
                 formatOption = "-f bestaudio --extract-audio --audio-format mp3";
-
                 string outputTemplate = Path.Combine(myVideosPath, "%(title)s.%(ext)s");
+
+      
+                string playlistOption = chckBox1Playlist.Checked ? "" : "--no-playlist";
+
+                string arguments = $"{playlistOption} {formatOption} -o \"{outputTemplate}\" \"{txbURL.Text}\"";
 
                 cmd = new Process
                 {
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = "yt-dlp.exe",
-                        Arguments = $"{txbURL.Text} {formatOption} -o \"{outputTemplate}\"",                                                                                                                       //Arguments = $"{txbURL.Text} {playlistOption} {formatOption} -o \"{outputPath}\"", //for mp3 
+                        Arguments = arguments,
                         RedirectStandardInput = true,
                         RedirectStandardOutput = true,
                         RedirectStandardError = true,
@@ -117,42 +121,38 @@ namespace ytDLPsosing
                     }
                 };
 
-
                 cmd.OutputDataReceived += Cmd_OutputDataReceiver;
                 cmd.ErrorDataReceived += Cmd_OutputDataReceiver;
 
                 cmd.EnableRaisingEvents = true;
-                cmd.Exited += Cmd_ProcessExited; // Handle process completion
+                cmd.Exited += Cmd_ProcessExited;
 
                 cmd.Start();
                 cmd.BeginOutputReadLine();
                 cmd.BeginErrorReadLine();
 
-                AppendOutput($"Music Download started... Files saved in folder: {myVideosPath}\n");
-
+                AppendOutput($"Music Download started... (Playlist: {(chckBox1Playlist.Checked ? "Enabled" : "Disabled")}) Files saved in: {myVideosPath}\n");
             }
-
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                MessageBox.Show($"error during process...: {ex.Message}");        
+                MessageBox.Show($"Error during process: {ex.Message}");
             }
-
         }
 
-#endregion
+
+        #endregion
 
 
-        #region Output and Completion Handling
+        #region Output and Data Receiver Download
         private void Cmd_OutputDataReceiver(object sender, DataReceivedEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Data))
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    AppendOutput(e.Data + Environment.NewLine);
-                });
-            }
+                AppendOutput(e.Data + Environment.NewLine);
         }
+
+        #endregion
+
+
 
         private void Cmd_ProcessExited(object sender, EventArgs e)
         {
@@ -164,13 +164,21 @@ namespace ytDLPsosing
             };
         }
 
+        // correction for outputing
+
         private void AppendOutput(string text)
         {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string>(AppendOutput), text);
+                return;
+            }
+
             rtbOUTPUT.AppendText(text);
             rtbOUTPUT.SelectionStart = rtbOUTPUT.Text.Length;
             rtbOUTPUT.ScrollToCaret();
         }
-        #endregion
+
 
         #region Button Events Terminating
         private void btnStartDownload_Click(object sender, EventArgs e)
@@ -192,7 +200,10 @@ namespace ytDLPsosing
                 StartDownloadMusic();
             }
         }
+        #endregion
 
+
+        #region "Clearing field click"
 
         private void btnClear_Click(object sender, EventArgs e)
         {
@@ -200,27 +211,9 @@ namespace ytDLPsosing
             txbURL.Clear();
         }
 
-        private void btnKillProcess_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (cmd != null && !cmd.HasExited)
-                {
-                    cmd.Kill();
-                    cmd.Dispose();
-                    MessageBox.Show("Download process terminated.");
-                }
-                else
-                {
-                    MessageBox.Show("No active process to terminate...");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred while terminating the process: {ex.Message}");
-            }
-        }
         #endregion
+
+
 
         #region OpenDownloadFolder
         private void btnOpenFolder_Click(object sender, EventArgs e)
@@ -242,49 +235,50 @@ namespace ytDLPsosing
         private void btnUpdate_Click(object sender, EventArgs e)
         {
 
-            try {
-            //string commandosUpdatos = "yt-dlp --update-to master";
-            string commandosUpdatos = " --update-to master";
-
-            cmd = new Process
+            try
             {
-                StartInfo = new ProcessStartInfo
+                if (!File.Exists("yt-dlp.exe"))
                 {
-                    FileName = "yt-dlp.exe",
-                    Arguments = commandosUpdatos,
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true,
-                    UseShellExecute = false
+                    MessageBox.Show("yt-dlp.exe not found in the application directory.");
+                    return;
                 }
-            };
 
-            cmd.OutputDataReceived += Cmd_OutputDataReceiver;
-            cmd.ErrorDataReceived += Cmd_OutputDataReceiver;
+                // Correct yt-dlp update command
+                string arguments = "-U";
 
-            cmd.EnableRaisingEvents = true;
-            cmd.Exited += Cmd_ProcessExited; // Handle process completion
+                cmd = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = "yt-dlp.exe",
+                        Arguments = arguments,
+                        RedirectStandardInput = true,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        CreateNoWindow = true,
+                        UseShellExecute = false
+                    },
+                    EnableRaisingEvents = true
+                };
 
-            cmd.Start();
-            cmd.BeginOutputReadLine();
-            cmd.BeginErrorReadLine();
+                cmd.OutputDataReceived += Cmd_OutputDataReceiver;
+                cmd.ErrorDataReceived += Cmd_OutputDataReceiver;
+                cmd.Exited += Cmd_ProcessExited;
 
-                //
+                cmd.Start();
+                cmd.BeginOutputReadLine();
+                cmd.BeginErrorReadLine();
 
-                AppendOutput($"... UPDATE KERNEL IN PROGRESS ...\n");
-
-
-
+                AppendOutput("--> UPDATE PROCESS STARTED...\n");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred: {ex.Message}");
+                MessageBox.Show($"Update failed: {ex.Message}");
             }
 
-        //
+           
 
-}
+        }
 
 
 
