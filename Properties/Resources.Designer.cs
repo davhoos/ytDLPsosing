@@ -63,19 +63,9 @@ namespace ytDLPsosing.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap pngius {
-            get {
-                object obj = ResourceManager.GetObject("pngius", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap youtube_256x256 {
             get {
-                object obj = ResourceManager.GetObject("youtube.256x256", resourceCulture);
+                object obj = ResourceManager.GetObject("youtube_256x256", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

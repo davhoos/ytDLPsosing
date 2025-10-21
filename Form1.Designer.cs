@@ -106,7 +106,7 @@
             this.label1.Location = new System.Drawing.Point(362, 634);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(231, 30);
+            this.label1.Size = new System.Drawing.Size(154, 20);
             this.label1.TabIndex = 6;
             this.label1.Text = "Davhoos - 2025 v0.8";
             // 
@@ -123,8 +123,7 @@
             // 
             // btnStartDownload
             // 
-            this.btnStartDownload.BackgroundImage = global::ytDLPsosing.Properties.Resources.youtube_256x256;
-            this.btnStartDownload.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnStartDownload.Image = ((System.Drawing.Image)(resources.GetObject("btnStartDownload.Image")));
             this.btnStartDownload.Location = new System.Drawing.Point(745, 54);
             this.btnStartDownload.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnStartDownload.Name = "btnStartDownload";

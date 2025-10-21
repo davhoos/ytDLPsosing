@@ -52,13 +52,20 @@ namespace ytDLPsosing
                     Directory.CreateDirectory(myVideosPath);
                 }
 
-                formatOption = "-f \"bestvideo[ext=mp4][height<=1440]+bestaudio[ext=m4a]/best[ext=mp4]\"";
+                
                 string outputTemplate = Path.Combine(myVideosPath, "%(title)s.%(ext)s");
-
-         
+                         
                 string playlistOption = chckBox1Playlist.Checked ? "" : "--no-playlist";
 
-                string arguments = $"{playlistOption} {formatOption} --merge-output-format mp4 --remux-video mp4 --no-keep-video -o \"{outputTemplate}\" \"{txbURL.Text}\"";
+                formatOption = "-f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]\"";
+                string arguments = $"{playlistOption} {formatOption} --merge-output-format mp4 -o \"{outputTemplate}\" \"{txbURL.Text}\"";
+
+
+                //formatOption = "-f \"bestvideo[ext=mp4][height<=1440]+bestaudio[ext=m4a]/best[ext=mp4]\"";
+
+                //string arguments = $"{playlistOption} {formatOption} --merge-output-format mp4 --remux-video mp4 --no-keep-video -o \"{outputTemplate}\" \"{txbURL.Text}\"";
+                //string arguments = $"{playlistOption} {formatOption} --merge-output-format mp4 -o \"{outputTemplate}\" \"{txbURL.Text}\"";
+
 
                 cmd = new Process
                 {
@@ -269,7 +276,7 @@ namespace ytDLPsosing
                 cmd.BeginOutputReadLine();
                 cmd.BeginErrorReadLine();
 
-                AppendOutput("--> UPDATE PROCESS STARTED...\n");
+                AppendOutput("===> UPDATE PROCESS STARTED...\n");
             }
             catch (Exception ex)
             {
