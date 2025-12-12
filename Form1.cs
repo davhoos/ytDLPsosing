@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq.Expressions;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace ytDLPsosing
@@ -25,7 +27,8 @@ namespace ytDLPsosing
 
 
             
-            checkMusicOrVideo.Text = "Video or Music";
+            checkMusicOrVideo.Text = "Video *mp4";
+            comboResolution.SelectedIndex = 0;
 
         }
         #endregion
@@ -57,15 +60,18 @@ namespace ytDLPsosing
                          
                 string playlistOption = chckBox1Playlist.Checked ? "" : "--no-playlist";
 
-                formatOption = "-f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]\"";
-                string arguments = $"{playlistOption} {formatOption} --merge-output-format mp4 -o \"{outputTemplate}\" \"{txbURL.Text}\"";
+                //string arguments = $"{playlistOption} {comboResolution.Text} --merge-output-format mp4 -o \"{outputTemplate}\" \"{txbURL.Text}\"";
+                //
+                //
+                //- f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]\
+                //- f "bestvideo[height=720][ext=mp4]+bestaudio[ext=m4a]/best[height=720][ext=mp4]"
 
+                string Item0 = "-f \"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]\"";
+                string Item1 = "-f \"bestvideo[height=720][ext=mp4]+bestaudio[ext=m4a]/best[height=720][ext=mp4]\"";
 
-                //formatOption = "-f \"bestvideo[ext=mp4][height<=1440]+bestaudio[ext=m4a]/best[ext=mp4]\"";
+                string selectedFormat = comboResolution.SelectedIndex == 0 ? Item0 : Item1;
 
-                //string arguments = $"{playlistOption} {formatOption} --merge-output-format mp4 --remux-video mp4 --no-keep-video -o \"{outputTemplate}\" \"{txbURL.Text}\"";
-                //string arguments = $"{playlistOption} {formatOption} --merge-output-format mp4 -o \"{outputTemplate}\" \"{txbURL.Text}\"";
-
+                string arguments = $"{playlistOption} {selectedFormat} --merge-output-format mp4 -o \"{outputTemplate}\" \"{txbURL.Text}\"";
 
                 cmd = new Process
                 {
@@ -81,6 +87,7 @@ namespace ytDLPsosing
                     },
                     EnableRaisingEvents = true
                 };
+
 
                 cmd.OutputDataReceived += Cmd_OutputDataReceiver;
                 cmd.ErrorDataReceived += Cmd_OutputDataReceiver;
@@ -165,7 +172,7 @@ namespace ytDLPsosing
         {
            
             {
-                AppendOutput("=====> Download Complete <=====\n");
+                AppendOutput("=====> Download Completed \n");
 
 
             };
@@ -200,11 +207,13 @@ namespace ytDLPsosing
             {
                 // Video mode
                 StartDownloadVideo();
+                checkMusicOrVideo.Text = "Video mp4";
             }
             else if (checkMusicOrVideo.Checked == false) 
             {
                 // Music mode
                 StartDownloadMusic();
+                checkMusicOrVideo.Text = "Music mp3";
             }
         }
         #endregion
@@ -216,6 +225,30 @@ namespace ytDLPsosing
         {
             rtbOUTPUT.Clear();
             txbURL.Clear();
+
+            string killYtdlp = " /F /IM yt-dlp.exe";
+
+            cmd = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "taskkill",
+                    Arguments = killYtdlp,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true,
+                    UseShellExecute = false
+
+                },
+            };
+
+            cmd.OutputDataReceived += Cmd_OutputDataReceiver;
+            cmd.ErrorDataReceived += Cmd_OutputDataReceiver;
+            cmd.Exited += Cmd_ProcessExited;
+
+            cmd.Start();
+
         }
 
         #endregion
@@ -282,15 +315,32 @@ namespace ytDLPsosing
             {
                 MessageBox.Show($"Update failed: {ex.Message}");
             }
-
-           
-
+                       
         }
 
 
+        //checked state changed - description text
 
         #endregion
 
-   
+        private void ChgeckBoxChecked_Changed(object sender, EventArgs e)
+        {
+            if (checkMusicOrVideo.Checked == true)
+            {
+                // Video mode - text
+                //
+                checkMusicOrVideo.Text = "Video mp4";
+            }
+            else if (checkMusicOrVideo.Checked == false)
+            {
+                // Music mode - text
+                //
+                checkMusicOrVideo.Text = "Music mp3";
+            }
+        }
+
+
+        //
+
     }
 }

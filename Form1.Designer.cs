@@ -33,12 +33,12 @@
             this.txbURL = new System.Windows.Forms.TextBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.chckBox1Playlist = new System.Windows.Forms.CheckBox();
-            this.btnKillProcess = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btnOpenFolder = new System.Windows.Forms.Button();
             this.btnStartDownload = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.checkMusicOrVideo = new System.Windows.Forms.CheckBox();
+            this.comboResolution = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // rtbOUTPUT
@@ -65,12 +65,12 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(510, 75);
+            this.btnClear.Location = new System.Drawing.Point(548, 75);
             this.btnClear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(222, 38);
+            this.btnClear.Size = new System.Drawing.Size(184, 38);
             this.btnClear.TabIndex = 3;
-            this.btnClear.Text = "clear outputs";
+            this.btnClear.Text = "clear outputs && stop";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
@@ -89,17 +89,6 @@
             this.chckBox1Playlist.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.chckBox1Playlist.UseVisualStyleBackColor = true;
             // 
-            // btnKillProcess
-            // 
-            this.btnKillProcess.Location = new System.Drawing.Point(66, 109);
-            this.btnKillProcess.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnKillProcess.Name = "btnKillProcess";
-            this.btnKillProcess.Size = new System.Drawing.Size(182, 35);
-            this.btnKillProcess.TabIndex = 5;
-            this.btnKillProcess.Text = "Kill Process download !";
-            this.btnKillProcess.UseVisualStyleBackColor = true;
-            this.btnKillProcess.Visible = false;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -108,14 +97,14 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(154, 20);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Davhoos - 2025 v0.8";
+            this.label1.Text = "Davhoos - 2025 v0.9";
             // 
             // btnOpenFolder
             // 
-            this.btnOpenFolder.Location = new System.Drawing.Point(275, 75);
+            this.btnOpenFolder.Location = new System.Drawing.Point(212, 75);
             this.btnOpenFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnOpenFolder.Name = "btnOpenFolder";
-            this.btnOpenFolder.Size = new System.Drawing.Size(219, 91);
+            this.btnOpenFolder.Size = new System.Drawing.Size(326, 38);
             this.btnOpenFolder.TabIndex = 8;
             this.btnOpenFolder.Text = "Open download folder";
             this.btnOpenFolder.UseVisualStyleBackColor = true;
@@ -136,10 +125,10 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(510, 131);
+            this.btnUpdate.Location = new System.Drawing.Point(548, 131);
             this.btnUpdate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(222, 35);
+            this.btnUpdate.Size = new System.Drawing.Size(184, 35);
             this.btnUpdate.TabIndex = 9;
             this.btnUpdate.Text = "update kernel";
             this.btnUpdate.UseVisualStyleBackColor = true;
@@ -158,17 +147,29 @@
             this.checkMusicOrVideo.TabIndex = 10;
             this.checkMusicOrVideo.Text = "Video / Music";
             this.checkMusicOrVideo.UseVisualStyleBackColor = true;
+            this.checkMusicOrVideo.CheckedChanged += new System.EventHandler(this.ChgeckBoxChecked_Changed);
+            // 
+            // comboResolution
+            // 
+            this.comboResolution.FormattingEnabled = true;
+            this.comboResolution.Items.AddRange(new object[] {
+            "FULL HD best video-audio",
+            "HD Ready 720pixels"});
+            this.comboResolution.Location = new System.Drawing.Point(212, 133);
+            this.comboResolution.Name = "comboResolution";
+            this.comboResolution.Size = new System.Drawing.Size(326, 28);
+            this.comboResolution.TabIndex = 11;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(892, 660);
+            this.Controls.Add(this.comboResolution);
             this.Controls.Add(this.checkMusicOrVideo);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnOpenFolder);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnKillProcess);
             this.Controls.Add(this.chckBox1Playlist);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.txbURL);
@@ -193,11 +194,11 @@
         private System.Windows.Forms.TextBox txbURL;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.CheckBox chckBox1Playlist;
-        private System.Windows.Forms.Button btnKillProcess;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnOpenFolder;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.CheckBox checkMusicOrVideo;
+        private System.Windows.Forms.ComboBox comboResolution;
     }
 }
 
