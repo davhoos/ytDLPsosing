@@ -45,11 +45,11 @@
             // 
             this.rtbOUTPUT.BackColor = System.Drawing.SystemColors.ControlLight;
             this.rtbOUTPUT.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.rtbOUTPUT.Location = new System.Drawing.Point(4, 191);
+            this.rtbOUTPUT.Location = new System.Drawing.Point(4, 176);
             this.rtbOUTPUT.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.rtbOUTPUT.Name = "rtbOUTPUT";
             this.rtbOUTPUT.ReadOnly = true;
-            this.rtbOUTPUT.Size = new System.Drawing.Size(882, 436);
+            this.rtbOUTPUT.Size = new System.Drawing.Size(882, 451);
             this.rtbOUTPUT.TabIndex = 0;
             this.rtbOUTPUT.Text = "";
             // 
@@ -62,13 +62,15 @@
             this.txbURL.Name = "txbURL";
             this.txbURL.Size = new System.Drawing.Size(860, 30);
             this.txbURL.TabIndex = 2;
+            this.txbURL.Click += new System.EventHandler(this.enterAllText1);
+            this.txbURL.Enter += new System.EventHandler(this.enterAllText);
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(548, 75);
+            this.btnClear.Location = new System.Drawing.Point(548, 62);
             this.btnClear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(184, 38);
+            this.btnClear.Size = new System.Drawing.Size(184, 50);
             this.btnClear.TabIndex = 3;
             this.btnClear.Text = "clear outputs && stop";
             this.btnClear.UseVisualStyleBackColor = true;
@@ -79,7 +81,7 @@
             this.chckBox1Playlist.AutoSize = true;
             this.chckBox1Playlist.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chckBox1Playlist.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.chckBox1Playlist.Location = new System.Drawing.Point(18, 71);
+            this.chckBox1Playlist.Location = new System.Drawing.Point(18, 66);
             this.chckBox1Playlist.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chckBox1Playlist.Name = "chckBox1Playlist";
             this.chckBox1Playlist.Size = new System.Drawing.Size(148, 29);
@@ -95,16 +97,16 @@
             this.label1.Location = new System.Drawing.Point(362, 634);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(154, 20);
+            this.label1.Size = new System.Drawing.Size(163, 20);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Davhoos - 2025 v0.9";
+            this.label1.Text = "Davhoos - 2026 v0.99";
             // 
             // btnOpenFolder
             // 
-            this.btnOpenFolder.Location = new System.Drawing.Point(212, 75);
+            this.btnOpenFolder.Location = new System.Drawing.Point(212, 62);
             this.btnOpenFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnOpenFolder.Name = "btnOpenFolder";
-            this.btnOpenFolder.Size = new System.Drawing.Size(326, 38);
+            this.btnOpenFolder.Size = new System.Drawing.Size(326, 50);
             this.btnOpenFolder.TabIndex = 8;
             this.btnOpenFolder.Text = "Open download folder";
             this.btnOpenFolder.UseVisualStyleBackColor = true;
@@ -113,10 +115,10 @@
             // btnStartDownload
             // 
             this.btnStartDownload.Image = ((System.Drawing.Image)(resources.GetObject("btnStartDownload.Image")));
-            this.btnStartDownload.Location = new System.Drawing.Point(745, 54);
+            this.btnStartDownload.Location = new System.Drawing.Point(745, 59);
             this.btnStartDownload.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnStartDownload.Name = "btnStartDownload";
-            this.btnStartDownload.Size = new System.Drawing.Size(133, 127);
+            this.btnStartDownload.Size = new System.Drawing.Size(133, 107);
             this.btnStartDownload.TabIndex = 1;
             this.btnStartDownload.Text = "Download";
             this.btnStartDownload.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -125,10 +127,10 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(548, 131);
+            this.btnUpdate.Location = new System.Drawing.Point(548, 132);
             this.btnUpdate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(184, 35);
+            this.btnUpdate.Size = new System.Drawing.Size(184, 34);
             this.btnUpdate.TabIndex = 9;
             this.btnUpdate.Text = "update kernel";
             this.btnUpdate.UseVisualStyleBackColor = true;
@@ -140,7 +142,7 @@
             this.checkMusicOrVideo.Checked = true;
             this.checkMusicOrVideo.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkMusicOrVideo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.checkMusicOrVideo.Location = new System.Drawing.Point(18, 148);
+            this.checkMusicOrVideo.Location = new System.Drawing.Point(18, 132);
             this.checkMusicOrVideo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.checkMusicOrVideo.Name = "checkMusicOrVideo";
             this.checkMusicOrVideo.Size = new System.Drawing.Size(170, 29);

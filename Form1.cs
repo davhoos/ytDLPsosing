@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.IO;
@@ -25,8 +25,6 @@ namespace ytDLPsosing
                 MessageBox.Show("Integrity check failed - missing yt-dlp.exe!");
             }
 
-
-            
             checkMusicOrVideo.Text = "Video *mp4";
             comboResolution.SelectedIndex = 0;
 
@@ -34,12 +32,10 @@ namespace ytDLPsosing
         #endregion
 
 
-        
+
         string myVideosPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "ytdlp_videos") + Path.DirectorySeparatorChar;
 
 
-
-      
         string formatOption;
 
 
@@ -55,9 +51,9 @@ namespace ytDLPsosing
                     Directory.CreateDirectory(myVideosPath);
                 }
 
-                
+
                 string outputTemplate = Path.Combine(myVideosPath, "%(title)s.%(ext)s");
-                         
+
                 string playlistOption = chckBox1Playlist.Checked ? "" : "--no-playlist";
 
                 //string arguments = $"{playlistOption} {comboResolution.Text} --merge-output-format mp4 -o \"{outputTemplate}\" \"{txbURL.Text}\"";
@@ -116,7 +112,7 @@ namespace ytDLPsosing
                 formatOption = "-f bestaudio --extract-audio --audio-format mp3";
                 string outputTemplate = Path.Combine(myVideosPath, "%(title)s.%(ext)s");
 
-      
+
                 string playlistOption = chckBox1Playlist.Checked ? "" : "--no-playlist";
 
                 string arguments = $"{playlistOption} {formatOption} -o \"{outputTemplate}\" \"{txbURL.Text}\"";
@@ -170,12 +166,13 @@ namespace ytDLPsosing
 
         private void Cmd_ProcessExited(object sender, EventArgs e)
         {
-           
+
             {
-                AppendOutput("=====> Download Completed \n");
+                AppendOutput("=====>>> Download Completed \n");
 
 
-            };
+            }
+            ;
         }
 
         // correction for outputing
@@ -209,7 +206,7 @@ namespace ytDLPsosing
                 StartDownloadVideo();
                 checkMusicOrVideo.Text = "Video mp4";
             }
-            else if (checkMusicOrVideo.Checked == false) 
+            else if (checkMusicOrVideo.Checked == false)
             {
                 // Music mode
                 StartDownloadMusic();
@@ -274,16 +271,15 @@ namespace ytDLPsosing
         #region UpdateKernel
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-
             try
             {
                 if (!File.Exists("yt-dlp.exe"))
                 {
-                    MessageBox.Show("yt-dlp.exe not found in the application directory.");
+                    MessageBox.Show("yt-dlp.exe not found in the app directory.");
                     return;
                 }
 
-                // Correct yt-dlp update command
+                // Correcting command for update
                 string arguments = "-U";
 
                 cmd = new Process
@@ -315,7 +311,7 @@ namespace ytDLPsosing
             {
                 MessageBox.Show($"Update failed: {ex.Message}");
             }
-                       
+
         }
 
 
@@ -330,14 +326,31 @@ namespace ytDLPsosing
                 // Video mode - text
                 //
                 checkMusicOrVideo.Text = "Video mp4";
+                comboResolution.Show();
+
             }
             else if (checkMusicOrVideo.Checked == false)
             {
                 // Music mode - text
                 //
                 checkMusicOrVideo.Text = "Music mp3";
+                comboResolution.Hide();
             }
         }
+
+        private void enterAllText(object sender, EventArgs e)
+        {
+            //marking compelete text when clicking on the textbox
+            txbURL.SelectAll();
+
+        }
+
+        private void enterAllText1(object sender, EventArgs e)
+        {
+            //ensure in click event that the text is selected
+            txbURL.SelectAll();
+        }
+
 
 
         //
